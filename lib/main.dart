@@ -44,6 +44,7 @@ class _MyHomeState extends State<MyHome> {
           children: [
             Text("$count", style: TextStyle(fontSize: 80)),
             Row(
+              //binの内容を表示
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 BinDigit(),
