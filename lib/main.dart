@@ -9,81 +9,84 @@ class MyApp2 extends StatelessWidget {
   const MyApp2({super.key});
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: '実践演習アプリ',
-      home: Scaffold(
-          //足場
-          appBar: AppBar(title: Text('実践演習アプリ')), //多構造,()structure
-          floatingActionButton: FloatingActionButton(
-              onPressed: () => {},
-              child: Icon(Icons.wb_iridescent_sharp)), //引数が必要,onClicked的な
-          body: Center(child: Expanded(child: FlutterLogo())) //よくあるパターン
-          ),
-    );
+    return MaterialApp(title: '実践演習アプリ', home: MyHome()); //classに移行してコードをきれいにする
   }
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyHome extends StatefulWidget {
+  const MyHome({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme:
-            ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 37, 132, 154)),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(title: '0000'),
-    );
+  _MyHomeState createState() {
+    //型の型,「_」外に出ても参照されない.
+    return _MyHomeState();
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
+class _MyHomeState extends State<MyHome> {
+  int count = 16;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+        //足場
+        appBar: AppBar(title: Text('実践演習アプリ')), //多構造,()structure
+
+        floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              setState(() {
+                count = 0;
+              });
+            },
+            child: Icon(Icons.wb_iridescent_sharp)), //引数が必要,onClicked的な
+
+        body: Column(
+          //縦方向
+          children: [
+            Text("$count", style: TextStyle(fontSize: 80)),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                BinDigit(),
+                BinDigit(),
+                BinDigit(),
+                BinDigit(),
+                BinDigit(),
+                BinDigit(),
+                BinDigit(),
+              ],
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
+            Row(
+              //横方向
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        count++;
+                      });
+                      //count++では増えない,ブレークポイントで確認,rebuildが必要なときはそれを知らせる．
+                    },
+                    child: Icon(Icons.plus_one)), //「,」がいる．=>リストだから
+
+                ElevatedButton(
+                    onPressed: () {
+                      setState(() => count--); //省略した形
+                    },
+                    child: Icon(Icons.exposure_minus_1)),
+              ],
+            )
           ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
-    );
+        ));
+  }
+}
+
+//binaryはstatefulの下にあるのでstatelessでいい．
+
+class BinDigit extends StatelessWidget {
+  const BinDigit({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Text("0");
   }
 }
