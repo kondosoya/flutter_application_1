@@ -42,20 +42,17 @@ class _MyHomeState extends State<MyHome> {
         body: Column(
           //縦方向
           children: [
-            Text("$count", style: TextStyle(fontSize: 80)),
+            Text("$count", style: const TextStyle(fontSize: 80)),
             Row(
               //binの内容を表示
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                BinDigit(value: count, digit: 7),
-                BinDigit(value: count, digit: 6),
-                BinDigit(value: count, digit: 5),
-                BinDigit(value: count, digit: 4),
-                BinDigit(value: count, digit: 3),
-                BinDigit(value: count, digit: 2),
-                BinDigit(value: count, digit: 1),
-                BinDigit(value: count, digit: 0),
-              ],
+              children: ([7, 6, 5, 4, 3, 2, 1, 0].map((i) {
+                return BinDigit(
+                  value: count,
+                  digit: i,
+                );
+              })).toList(),
+              // BinDigit(value: count, digit: 7),
             ),
             Row(
               //横方向
@@ -105,3 +102,5 @@ class BinDigit extends StatelessWidget {
 //     } else {
 //       return Text("0");
 //     }
+
+//青波線はconst定義
